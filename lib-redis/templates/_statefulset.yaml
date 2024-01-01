@@ -1,0 +1,35 @@
+{{- define "redis.statefulset.tpl" -}}
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  serviceName: "redis"
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis
+        command: ["redis-server"]
+        args: ["--save", "60", "1", "--loglevel", "warning"]
+        volumeMounts:
+        - name: redis-volume
+          mountPath: /data
+      terminationGracePeriodSeconds: 0
+  volumeClaimTemplates:
+  - metadata:
+      name: redis-volume
+    spec:
+      storageClassName: longhorn
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 100Mi
+{{- end -}}

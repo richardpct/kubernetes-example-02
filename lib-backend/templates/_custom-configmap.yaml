@@ -1,0 +1,10 @@
+{{- define "backend.customConfigmap.tpl" -}}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ .Chart.Name }}-custom-backend
+data: {}
+{{- end -}}
+{{- define "backend.customConfigmap" -}}
+{{- template "backend.util.merge" (append . "backend.customConfigmap.tpl") -}}
+{{- end -}}

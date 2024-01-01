@@ -1,0 +1,10 @@
+frontend:
+  host: www2.unixworld.io
+
+backend:
+  customfiles:
+    /opt/bin/init.sh: "init.sh"
+  customfiles2:
+    /var/lib/www/cgi-bin/reset.py: "reset.py"
+  customConfigmap:
+    enabled: true

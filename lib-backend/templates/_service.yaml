@@ -1,0 +1,13 @@
+{{- define "backend.service.tpl" -}}
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ .Chart.Name }}-backend
+spec:
+  selector:
+    app: {{ .Chart.Name }}-backend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+{{- end -}}

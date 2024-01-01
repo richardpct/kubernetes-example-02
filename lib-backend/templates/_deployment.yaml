@@ -1,0 +1,44 @@
+{{- define "backend.deployment.tpl" -}}
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: {{ .Chart.Name }}-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}-backend
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}-backend
+    spec:
+      containers:
+      - name: python
+        image: python
+        command: ["/opt/bin/init.sh"]
+        volumeMounts:
+        {{- range $key, $value := .Values.backend.customfiles }}
+        - name: www2-backend
+          mountPath: {{ $key }}
+          subPath: {{ $value }}
+        {{- end }}
+        {{- if .Values.backend.customConfigmap.enabled }}
+        {{- range $key, $value := .Values.backend.customfiles2 }}
+        - name: www2-custom-backend
+          mountPath: {{ $key }}
+          subPath: {{ $value }}
+        {{- end }}
+        {{- end }}
+      volumes:
+      - name: {{ .Chart.Name }}-backend
+        configMap:
+          name: {{ .Chart.Name }}-backend
+          defaultMode: 0755
+      {{- if .Values.backend.customConfigmap.enabled }}
+      - name: {{ .Chart.Name }}-custom-backend
+        configMap:
+          name: {{ .Chart.Name }}-custom-backend
+          defaultMode: 0755
+      {{ end }}
+{{- end -}}

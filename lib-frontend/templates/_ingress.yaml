@@ -1,0 +1,35 @@
+{{- define "frontend.ingress.tpl" -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Chart.Name }}-frontend
+  annotations:
+    haproxy.org/path-rewrite: |
+      /count /cgi-bin/count.py
+      /reset /cgi-bin/reset.py
+      /grafana/(.*) /\1
+spec:
+  ingressClassName: haproxy
+  rules:
+    - host: {{ .Values.frontend.host }}
+      http:
+        paths:
+          - path: /count
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Chart.Name }}-frontend
+                port:
+                  number: 80
+          - path: /reset
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Chart.Name }}-backend
+                port:
+                  number: 80
+  tls:
+  - hosts:
+    - {{ .Values.frontend.host }}
+    secretName: www2-cert
+{{- end -}}

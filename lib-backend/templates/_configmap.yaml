@@ -1,0 +1,14 @@
+{{- define "backend.configmap.tpl" -}}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ .Chart.Name }}-backend
+data:
+  init.sh: |
+    #!/bin/bash
+
+    set -e
+
+    pip install redis
+    python3 -m http.server 80 --cgi --directory /var/lib/www
+{{- end -}}
