@@ -8,3 +8,6 @@ backend:
     /var/lib/www/cgi-bin/reset.py: "reset.py"
   customConfigmap:
     enabled: true
+
+redis:
+  host: "redis-0.redis"
