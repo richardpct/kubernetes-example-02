@@ -1,32 +1,30 @@
-{{- define "frontend.deployment.tpl" -}}
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: {{ .Chart.Name }}-frontend
+  name: {{ .Values.app }}-frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Chart.Name }}-frontend
+      app: {{ .Values.app }}-frontend
   template:
     metadata:
       labels:
-        app: {{ .Chart.Name }}-frontend
+        app: {{ .Values.app }}-frontend
     spec:
       containers:
       - name: python
         image: python
         command: ["/opt/bin/init.sh"]
         volumeMounts:
-        - name: {{ .Chart.Name }}-frontend
+        - name: {{ .Values.app }}-frontend
           mountPath: /opt/bin/init.sh
           subPath: init.sh
-        - name: {{ .Chart.Name }}-frontend
+        - name: {{ .Values.app }}-frontend
           mountPath: /var/lib/www/cgi-bin/count.py
           subPath: count.py
       volumes:
-      - name: {{ .Chart.Name }}-frontend
+      - name: {{ .Values.app }}-frontend
         configMap:
-          name: {{ .Chart.Name }}-frontend
+          name: {{ .Values.app }}-frontend
           defaultMode: 0755
-{{- end -}}

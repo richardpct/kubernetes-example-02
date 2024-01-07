@@ -1,7 +1,9 @@
 frontend:
+  app: www2
   host: www2.unixworld.io
 
 backend:
+  app: www2
   customfiles:
     /opt/bin/init.sh: "init.sh"
   customfiles2:

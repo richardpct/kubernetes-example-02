@@ -1,4 +1,3 @@
-{{- define "redis.service.tpl" -}}
 kind: Service
 apiVersion: v1
 metadata:
@@ -11,4 +10,3 @@ spec:
   - protocol: TCP
     port: 6379
     targetPort: 6379
-{{- end -}}

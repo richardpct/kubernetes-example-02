@@ -1,8 +1,7 @@
-{{- define "frontend.configmap.tpl" -}}
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: {{ .Chart.Name }}-frontend
+  name: {{ .Values.app }}-frontend
 data:
   init.sh: |
     #!/bin/bash
@@ -26,4 +25,3 @@ data:
     print("<html><body>")
     print("<p>Hello World!<br />counter: " + str(count) + "<br /></p>")
     print("</body></html>")
-{{- end -}}
